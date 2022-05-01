@@ -1,16 +1,23 @@
-### Hi there 👋
+Hi 👋 My name is Jose Garcia
+============================
 
-<!--
-**ciro3/ciro3** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Environmental Sustainability Professional
+-----------------------------------------
 
-Here are some ideas to get you started:
+Human being with science and engineering background. Learning coding. Continual learner.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+* 🌍  I'm based in British Columbia
+* 🧠  I'm learning Python
+* 🤝  I'm open to collaborating on Environmental sustainability and data science projects.
+
+### Skills
+
+<p align="left">
+<a href="https://www.python.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/python-colored.svg" width="36" height="36" alt="Python" /></a>
+<a href="https://ethereum.org/en/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/ethereum-colored.svg" width="36" height="36" alt="Ethereum" /></a>
+</p>
+
+
+### Socials
+
+<p align="left"> <a href="https://www.github.com/ciro3" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" /></a> <a href="https://www.linkedin.com/in/jgar2099" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" /></a></p>
