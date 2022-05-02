@@ -8,15 +8,7 @@ Human being with science and engineering background. Learning coding. Continual 
 
 * 🌍  I'm based in British Columbia
 * 🧠  I'm learning Python
-* 🤝  I'm open to collaborating on Environmental sustainability and data science projects.
-
-### Skills
-
-<p align="left">
-<a href="https://www.python.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/python-colored.svg" width="36" height="36" alt="Python" /></a>
-<a href="https://ethereum.org/en/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/ethereum-colored.svg" width="36" height="36" alt="Ethereum" /></a>
-</p>
-
+* 🤝  I'm open to collaborating on Environmental sustainability and data science
 
 ### Socials
 
