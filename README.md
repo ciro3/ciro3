@@ -1,4 +1,4 @@
-Hi 👋 My name is Jose Garcia
+Hi 👋🏽 My name is Jose Garcia
 ============================
 
 Environmental Sustainability Professional
