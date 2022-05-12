@@ -7,8 +7,8 @@ Environmental Sustainability Professional
 Human being with science and engineering background. Learning coding. Continual learner.
 
 * 🌍  I'm based in British Columbia
-* 🧠  I'm learning Python
-* 🤝  I'm open to collaborating on Environmental sustainability and data science
+* 🧠  I'm learning to code (CS50)
+* 🤝  I'm open to collaborating on environmental sustainability and data science
 
 ### Socials
 
