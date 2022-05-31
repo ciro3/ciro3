@@ -4,9 +4,9 @@ Hi 👋🏽 My name is Jose Garcia
 Environmental Management Professional
 -----------------------------------------
 
-Human being with science and engineering background. Learning coding. Continual learner.
+Human being with environmental science and engineering background. Learning coding. Continual learner.
 
-* 🌍  Based, and based in British Columbia
+* 🌍  Based. in British Columbia
 * 🧠  Learning to code (CS50)
 * 🤝  Open to collaborating on environmental sustainability and data science projects
 
