@@ -1,7 +1,7 @@
 Hi 👋🏽 My name is Jose Garcia
 ============================
 
-Environmental Sustainability Professional
+Environmental Management Professional
 -----------------------------------------
 
 Human being with science and engineering background. Learning coding. Continual learner.
