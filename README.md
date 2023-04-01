@@ -6,7 +6,7 @@ Environmental Management Professional
 
 Human being with environmental science and engineering background. Learning coding. Continual learner.
 
-* 🌍  Based. in British Columbia
+* 🌍  Based  in British Columbia
 * 🧠  Learning to code (CS50)
 * 🤝  Open to collaborating on environmental sustainability and data science projects
 
