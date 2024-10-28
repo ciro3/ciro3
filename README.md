@@ -8,7 +8,7 @@ Human being with environmental science and engineering background. Learning codi
 
 * 🌍  Based  in British Columbia
 * 🧠  Learning to code (CS50)
-* 🤝  Open to collaborating on environmental sustainability and data science projects
+* 🤝  Open to collaborating on environmental & sustainability projects
 
 ### Socials
 
