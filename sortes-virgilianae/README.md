@@ -1,43 +1,54 @@
 # Sortes Virgilianae
 
-An oracle from Virgil's *Aeneid*, in the old Roman style: pose a question, and
-the program draws a random verse from a curated selection of the poem and
-reads it as your answer — the practice Nassim Taleb describes in *Antifragile*,
-where readers would open the Aeneid at random and take whatever line they
-landed on as guidance.
+An oracle from Virgil's *Aeneid*, in the old Roman style: pose a question,
+and the program draws one line uniformly at random from the entire real
+poem and reads it as your answer — the practice Nassim Taleb describes in
+*Antifragile*, where readers would open the Aeneid at random and take
+whatever line they landed on as guidance.
+
+## How the random draw works
+
+This doesn't pick from a hand-picked shortlist. On first run it fetches the
+complete Latin text of the Aeneid — the J. B. Greenough edition, sourced from
+the Perseus Digital Library's public-domain mirror on GitHub
+(`PerseusDL/canonical-latinLit`) — all ~9,862 lines across all 12 books, and
+caches it in `cache/`. Every draw picks one real line number uniformly at
+random out of all of them (book selection is weighted by book length, so
+every line has an equal chance, not every book).
+
+Run with `--refresh` to re-download the source text instead of using the
+cache.
 
 ## Usage
-
-Ask a question directly:
 
 ```bash
 python3 sortes.py "Should I take the new job?"
 ```
 
-Or run it with no arguments and you'll be prompted:
+Or run with no arguments and you'll be prompted:
 
 ```bash
 python3 sortes.py
 ```
 
-Each draw prints the Latin, an English rendering, brief context on who says
-it and when, and a reading of what it could mean as an answer.
+## English translation and interpretation
 
-## Verse bank
+Translating one line out of context isn't something a static file can do
+well, so:
 
-`verses.json` holds a curated selection of roughly 30 well-known, verified
-lines spanning all twelve books of the Aeneid — not the full poem, but enough
-range across fate, courage, grief, love, war, and warning for a good draw.
-
-## Optional: live interpretation via Claude
-
-By default the reading is a pre-written interpretation baked into
-`verses.json`. If you set `ANTHROPIC_API_KEY` in your environment and have the
-`anthropic` package installed (`pip install anthropic`), the program will
-instead ask Claude to interpret the drawn verse specifically for your
-question. It silently falls back to the canned reading if the key or package
-is missing, or the request fails.
+- **With `ANTHROPIC_API_KEY` set** (and `pip install anthropic`): the program
+  sends the exact drawn line to Claude and asks for a plain translation,
+  brief context on who's speaking, and a reading of it against your
+  question. This is the intended full experience.
+- **Without it**: you still get the real Latin line and its citation, plus
+  the nearest passage from a second public-domain source (Theodore C.
+  Williams' 1910 verse translation, also fetched from the same Perseus
+  mirror) as approximate context — its own line numbers don't map 1:1 to the
+  Latin, so it's a neighborhood, not a literal rendering. The "reading" in
+  this mode is just an invitation to interpret the line yourself, the way
+  the Romans actually did it.
 
 ## Requirements
 
-Python 3.7+. No required dependencies; `anthropic` is optional.
+Python 3.7+, internet access on first run (later runs use the cache).
+`anthropic` is optional, for live translation/interpretation.
