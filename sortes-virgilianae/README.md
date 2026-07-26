@@ -8,16 +8,13 @@ whatever line they landed on as guidance.
 
 ## How the random draw works
 
-This doesn't pick from a hand-picked shortlist. On first run it fetches the
-complete Latin text of the Aeneid — the J. B. Greenough edition, sourced from
-the Perseus Digital Library's public-domain mirror on GitHub
-(`PerseusDL/canonical-latinLit`) — all ~9,862 lines across all 12 books, and
-caches it in `cache/`. Every draw picks one real line number uniformly at
-random out of all of them (book selection is weighted by book length, so
-every line has an equal chance, not every book).
-
-Run with `--refresh` to re-download the source text instead of using the
-cache.
+This doesn't pick from a hand-picked shortlist. `aeneid-latin.txt` bundles
+the complete Latin text of the Aeneid — the J. B. Greenough edition, public
+domain, sourced from the Perseus Digital Library's mirror on GitHub
+(`PerseusDL/canonical-latinLit`) — all 9,862 lines across all 12 books, one
+per row as `book.line<TAB>text`. Every draw picks one real line number
+uniformly at random out of all of them (weighted by book length, so every
+*line* has an equal chance, not every book). No network access needed.
 
 ## Usage
 
@@ -41,14 +38,14 @@ well, so:
   brief context on who's speaking, and a reading of it against your
   question. This is the intended full experience.
 - **Without it**: you still get the real Latin line and its citation, plus
-  the nearest passage from a second public-domain source (Theodore C.
-  Williams' 1910 verse translation, also fetched from the same Perseus
-  mirror) as approximate context — its own line numbers don't map 1:1 to the
-  Latin, so it's a neighborhood, not a literal rendering. The "reading" in
-  this mode is just an invitation to interpret the line yourself, the way
-  the Romans actually did it.
+  the nearest passage from a second bundled public-domain source
+  (`aeneid-english.txt`, Theodore C. Williams' 1910 verse translation) as
+  approximate context — its own line numbers don't map 1:1 to the Latin, so
+  it's a neighborhood, not a literal rendering. The "reading" in this mode is
+  just an invitation to interpret the line yourself, the way the Romans
+  actually did it.
 
 ## Requirements
 
-Python 3.7+, internet access on first run (later runs use the cache).
-`anthropic` is optional, for live translation/interpretation.
+Python 3.7+, no dependencies, no network access. `anthropic` is optional,
+for live translation/interpretation.

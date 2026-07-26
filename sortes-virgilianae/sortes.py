@@ -1,80 +1,37 @@
 #!/usr/bin/env python3
 """Sortes Virgilianae: draw a truly random line of the Aeneid and read it as an answer.
 
-Every run, this consults a real online copy of the complete Latin text (the
-J. B. Greenough edition, via the Perseus Digital Library's public-domain
-mirror on GitHub), picks one line number uniformly at random out of all
-~9,860 real lines in the poem, and reads that exact line back to you. The
-first run downloads and caches the text; later runs draw from the cache so
-every line of the real poem stays reachable without re-fetching every time.
+The complete Latin text (the J. B. Greenough edition, public domain, via the
+Perseus Digital Library) is bundled locally in aeneid-latin.txt, one real
+line per row, enumerated as "book.line". Every run picks one line number
+uniformly at random out of all ~9,862 of them - no network access needed,
+and no preselected shortlist.
 """
 
 import argparse
-import html
 import os
 import random
-import re
 import textwrap
-import urllib.error
-import urllib.request
 from pathlib import Path
 
-CACHE_DIR = Path(__file__).parent / "cache"
-
-LAT_URL = (
-    "https://raw.githubusercontent.com/PerseusDL/canonical-latinLit/master/"
-    "data/phi0690/phi003/phi0690.phi003.perseus-lat2.xml"
-)
-ENG_URL = (
-    "https://raw.githubusercontent.com/PerseusDL/canonical-latinLit/master/"
-    "data/phi0690/phi003/phi0690.phi003.perseus-eng2.xml"
-)
-
-BOOK_DIV_RE = re.compile(
-    r'<div\b(?=[^>]*\btype="textpart")(?=[^>]*\bsubtype="book")(?=[^>]*\bn="(\d+)")[^>]*>'
-)
-LINE_RE = re.compile(r'<l n="([^"]+)"[^>]*>(.*?)</l>', re.DOTALL)
+HERE = Path(__file__).parent
+LATIN_PATH = HERE / "aeneid-latin.txt"
+ENGLISH_PATH = HERE / "aeneid-english.txt"
 
 
-def fetch(url, cache_name, refresh=False):
-    CACHE_DIR.mkdir(exist_ok=True)
-    cache_path = CACHE_DIR / cache_name
-    if cache_path.exists() and not refresh:
-        return cache_path.read_text(encoding="utf-8")
-    with urllib.request.urlopen(url, timeout=15) as resp:
-        text = resp.read().decode("utf-8")
-    cache_path.write_text(text, encoding="utf-8")
-    return text
-
-
-def clean(raw_xml_fragment):
-    no_tags = re.sub(r"<[^>]+>", "", raw_xml_fragment)
-    return html.unescape(" ".join(no_tags.split()))
-
-
-def parse_books(xml_text):
-    """Return {book_num: {line_num: text}} parsed straight out of the TEI XML."""
-    divs = list(BOOK_DIV_RE.finditer(xml_text))
+def load_lines(path):
+    """Parse a "book.line<TAB>text" file into {book: {line: text}}."""
     books = {}
-    for i, m in enumerate(divs):
-        book = int(m.group(1))
-        start = m.end()
-        end = divs[i + 1].start() if i + 1 < len(divs) else len(xml_text)
-        segment = xml_text[start:end]
-        lines = {}
-        for lm in LINE_RE.finditer(segment):
-            n_raw, text = lm.group(1), lm.group(2)
-            try:
-                n = int(n_raw)
-            except ValueError:
-                continue  # skips the rare split half-line label like "62b"
-            lines[n] = clean(text)
-        books[book] = lines
+    with open(path, encoding="utf-8") as f:
+        for row in f:
+            ref, text = row.rstrip("\n").split("\t", 1)
+            book_str, line_str = ref.split(".")
+            books.setdefault(int(book_str), {})[int(line_str)] = text
     return books
 
 
 def draw_random_line(latin_books):
-    """Pick uniformly among every real line in the poem (books weighted by length)."""
+    """Pick uniformly among every real line in the poem (weighted by book length)."""
     pool = [(book, line) for book, lines in latin_books.items() for line in lines]
     return random.choice(pool)
 
@@ -132,7 +89,6 @@ def llm_translate_and_read(latin_line, book, line, question):
 def main():
     parser = argparse.ArgumentParser(description="Sortes Virgilianae: an oracle from the Aeneid.")
     parser.add_argument("question", nargs="*", help="the question to pose (prompted if omitted)")
-    parser.add_argument("--refresh", action="store_true", help="re-download the source text")
     args = parser.parse_args()
 
     question = " ".join(args.question).strip()
@@ -141,28 +97,19 @@ def main():
     if not question:
         question = "What should I do?"
 
-    try:
-        latin_xml = fetch(LAT_URL, "aeneid-latin.xml", refresh=args.refresh)
-        english_xml = fetch(ENG_URL, "aeneid-english.xml", refresh=args.refresh)
-    except (urllib.error.URLError, TimeoutError) as e:
-        raise SystemExit(
-            f"Couldn't reach the online source ({e}). "
-            "Sortes Virgilianae needs internet access on first run to fetch the real "
-            "text; after that it uses the local cache in cache/."
-        )
-
-    latin_books = parse_books(latin_xml)
-    english_books = parse_books(english_xml)
+    latin_books = load_lines(LATIN_PATH)
+    english_books = load_lines(ENGLISH_PATH)
 
     book, line = draw_random_line(latin_books)
     latin_line = latin_books[book][line]
 
     wrap = lambda s: textwrap.fill(s, width=78)
+    total = sum(len(v) for v in latin_books.values())
 
     print()
     print(f'Question: "{question}"')
     print()
-    print(f"The lot falls on Aeneid {book}.{line} (of {sum(len(v) for v in latin_books.values())} lines):")
+    print(f"The lot falls on Aeneid {book}.{line} (of {total} lines):")
     print()
     print(wrap(f"  {latin_line}"))
     print()
@@ -173,9 +120,9 @@ def main():
     else:
         passage = nearest_english_passage(english_books, latin_books, book, line)
         print("(No ANTHROPIC_API_KEY set, so here's the nearest passage from the")
-        print(" public-domain Williams 1910 translation - it doesn't line up 1:1")
-        print(" with the Latin numbering, so treat it as a neighborhood, not a")
-        print(" literal rendering of the exact line above.)")
+        print(" bundled public-domain Williams 1910 translation - it doesn't line")
+        print(" up 1:1 with the Latin numbering, so treat it as a neighborhood, not")
+        print(" a literal rendering of the exact line above.)")
         print()
         if passage:
             print(wrap(f"English (approximate): {passage}"))
